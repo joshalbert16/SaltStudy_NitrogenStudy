@@ -1,0 +1,113 @@
+---
+title: "Nitrogen Study"
+format: html
+---
+
+```{r setup}
+#| message: false
+#| warning: false
+#| 
+library(tidymodels)
+library(skimr)
+library(kableExtra)
+library(tidyverse)
+
+
+```
+
+
+Calling in the data and cleaning the names. Displaying the data.
+
+```{r}
+DiffPercentSOM <- read.csv("Percent_SOM_Diff.csv")
+
+SOMPercent <- read.csv("SOM_Percent.csv")
+
+names(DiffPercentSOM) <- janitor::make_clean_names(names(DiffPercentSOM))
+names(SOMPercent) <- janitor::make_clean_names(names(SOMPercent))
+
+
+SOMPercent %>% 
+  head()
+
+DiffPercentSOM %>% 
+  head()
+```
+
+Attempted plotting and ANOVA Test with data set "DiffPercentSOM."
+
+```{r}
+
+plot1 <- plot(plot1_perc_som_difference ~ as.factor(time), data = DiffPercentSOM)
+
+plot2 <- plot(plot2_perc_som_difference ~ as.factor(time), data = DiffPercentSOM)
+
+plot3 <- plot(plot3_perc_som_difference ~ as.factor(time), data = DiffPercentSOM)
+
+
+results1=t.test(plot1_perc_som_difference~time,data=DiffPercentSOM,var.equal=FALSE)
+results1
+
+anova_model1 = aov(plot1_perc_som_difference + plot2_perc_som_difference + plot3_perc_som_difference ~ as.factor(time), data=DiffPercentSOM)
+anova_model1
+
+```
+
+Bar graphs of "DiffPercentSOM."
+
+```{r}
+DiffPercentSOM %>% 
+ggplot()+
+  geom_col(aes(x = time, y = plot1_perc_som_difference)) 
+  
+DiffPercentSOM %>%   
+ ggplot()+
+  geom_col(aes(x = time, y = plot2_perc_som_difference)) 
+
+DiffPercentSOM %>%   
+ggplot()+
+  geom_col(aes(x = time, y = plot3_perc_som_difference)) 
+  
+ 
+        
+
+
+```
+
+Bar graphs of "SOMPercent"
+
+```{r}
+
+SOMPercent %>%   
+ ggplot()+
+  geom_col(aes(x = time, y = plot1_percent_som))   
+    
+SOMPercent %>%   
+ ggplot()+
+  geom_col(aes(x = time, y = plot2_percent_som))   
+    
+SOMPercent %>%   
+ ggplot()+
+  geom_col(aes(x = time, y = plot3_percent_som))  
+
+
+
+
+```
+
+Bar graphs of "DiffPercentSOM."
+
+```{r}
+
+DiffPercentSOM %>% 
+ggplot()+
+  geom_boxplot(aes(x = percent_moisture, y = plot1_perc_som_difference))
+  
+DiffPercentSOM %>%   
+ ggplot()+
+  geom_boxplot(aes(x = percent_moisture, y = plot2_perc_som_difference)) 
+
+DiffPercentSOM %>%   
+ggplot()+
+  geom_boxplot(aes(x = percent_moisture, y = plot3_perc_som_difference)) 
+```
